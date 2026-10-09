@@ -123,6 +123,9 @@ class KarooRideReplayExtensionTest {
         ride(FitRecord(timestampMs = 0, power = 200), FitRecord(timestampMs = 1_000, power = 210))
         val events = connect(DataType.Source.POWER)
         events.awaitConnected()
+        // Wait for the initial burst (battery status and the parked sample) to land, so
+        // nothing is still in flight when the mark below is taken.
+        events.awaitDataPoint(DataType.Source.POWER) { it.singleValue == 200.0 }
         host.disconnectDevice(events)
         val before = events.items.size
 
