@@ -35,6 +35,10 @@ android {
         buildConfig = true
     }
 
+    testOptions {
+        unitTests.isIncludeAndroidResources = true
+    }
+
     // We deliberately request ACCESS_MOCK_LOCATION in the main manifest, NOT
     // in src/debug/. The whole purpose of this extension is to provide mock
     // GPS data — it IS the feature, not a debugging shortcut. The standard
@@ -99,4 +103,9 @@ dependencies {
     testImplementation("junit:junit:4.13.2")
     // Virtual time for the device lifecycle tests (800 ms search delay, state changes).
     testImplementation("org.jetbrains.kotlinx:kotlinx-coroutines-test:1.11.0")
+
+    // Robolectric tests that run the extension service against a fake Karoo system.
+    testImplementation("com.github.nikosavola.karoo-ext-testing:karoo-ext-testing-robolectric:0.1.1")
+    testImplementation("org.robolectric:robolectric:4.17")
+    testImplementation("androidx.test:core:1.6.1")
 }
